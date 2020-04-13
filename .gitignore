@@ -1,0 +1,9 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+akpy/
+ak-py/
+mimo4x64/
+models/
+
+channel_data*
+Harray*

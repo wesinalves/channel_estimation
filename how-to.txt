@@ -1,0 +1,113 @@
+How to install
+
+python3
+
+virtualenv -p python3 venv
+
+# Activate virtual environment
+source ./venv/bin/activate
+
+# Uses NVIDIA CUDA GPU
+pip install tensorflow-gpu 
+
+# For some reason Keras 2.2 does not load the models properly, I installed 2.1.6
+pip install keras==2.1.6
+
+# Install other requirements as well
+
+# Deactivate
+deactivate
+
+# You will also need to clone Aldebaro's python repo
+
+git clone https://gitlab.lasse.ufpa.br/software/ak-py.git
+cp -r ak-py/akpy .
+
+---
+
+How to run
+
+# Create a new model, trains it and saves to model.h5 file
+# This will overwrite the previous model.h5 if it exists
+python fres.py 
+
+# Train the model loaded from model.h5 
+python fres.py --mode=train
+
+# Test the model loaded from model.h5 for SNR = [-21, 21]
+# The test results (avg, min, max) are in 'mimo4x64' folder
+# The filename is "all_nmse_snrdb_21_Nr{}_Nt{}_numEx256.txt"
+python fres.py --mode=test
+
+---
+
+How to change SNR range for training 
+
+# Change lines 82 and 83 of fres.py
+min_randomized_snr_db = 20
+max_randomized_snr_db = 22
+
+---
+
+How to change model architecture
+# Uncomment one of the return lines of baseline_model function in fres.py
+# For example 
+
+def baseline_model():
+    # return create_res3()
+    # return create_lstm_conv() # this is actually not using LSTM, just Conv1D
+    return create_deep_dense()
+
+---
+
+How to toggle and set ADC hysteresis
+
+# Toggle hysteresis
+
+shouldUseHysteresisQuantizer = True # or False 
+
+# Set ADC hysteresis thresholds to a fixed standard deviation
+
+shouldUseHysteresisQuantizer = True
+if shouldUseHysteresisQuantizer:
+    Y = hysteresis_quantize(Y, std=0.1)
+
+---
+
+How to use ray-tracing channels
+
+# Should specify method in fres.py for both train and test
+# Lines 101 and 601 of fres.py
+
+method = "manual"
+
+# This will load 8x8 channels form channel_data.mat on the same directory 
+
+---
+
+How to use randomized sparse channels
+
+# Should specify method in fres.py for both train and test
+# Around lines 101 and 601 of fres.py
+
+method = "randomized_sparse"
+
+# This will generate channels with a random number of clusters in angle domain
+
+---
+
+How to create channel_data.mat
+
+# run Matlab script (select file inside script)
+get_channels.m
+
+# The ray-tracing files I have are 
+Harray2.8GhzULA8x8s003.mat
+Harray5GhzULA8x8s003.mat
+Harray60GhzULA8x8s006.mat
+
+# The channels are organized in 5 dimensions:
+# (episodes, scene, receiver, Nr, Nt)
+# I used only 1 receiver (3rd dimension fixed on 1)
+
+---
