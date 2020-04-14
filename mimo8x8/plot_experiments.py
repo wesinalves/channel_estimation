@@ -42,17 +42,27 @@ print(sum_prop)
 lower = 100 - (sum_mat * 100) / sum_prop
 print(lower)
 
-mismatched1.loc[0,:].plot(style='r-', label='1 bit mismatched')
-mismatched3.loc[0,:].plot(style='b-', label='3 bits mismatched')
-mismatched5.loc[0,:].plot(style='k-', label='5 bits mismatched')
-matched1.loc[0,:].plot(style='r--', label='1 bit matched')
-proposed1.loc[0,:].plot(style='r-d', label='1 bit proposed')
-proposed3.loc[0,:].plot(style='b-d', label='3 bits proposed')
-matched3.loc[0,:].plot(style='b--', label='3 bits matched')
-proposed5.loc[0,:].plot(style='k-d', label='5 bits proposed')
-matched5.loc[0,:].plot(style='k--', label='5 bits matched')
+plt.figure(figsize=(7,2.5))
+mismatched1.loc[0,:].plot(style='b-s', label='1 bit mismatched')
+mismatched3.loc[0,:].plot(style='b-P', label='3 bits mismatched')
+mismatched5.loc[0,:].plot(style='b-o', label='5 bits mismatched')
+matched1.loc[0,:].plot(style='r--s', label='1 bit matched')
+proposed1.loc[0,:].plot(style='k-s', label='1 bit DTL')
+proposed3.loc[0,:].plot(style='k-P', label='3 bits DTL')
+matched3.loc[0,:].plot(style='r--P', label='3 bits matched')
+proposed5.loc[0,:].plot(style='k-o', label='5 bits DTL')
+matched5.loc[0,:].plot(style='r--o', label='5 bits matched')
+
+plt.subplots_adjust(top=0.97,
+                    bottom=0.185,
+                    left=0.11,
+                    right=0.68,
+                    hspace=0.2,
+                    wspace=0.2)
 
 '''
+
+
 bits = [1,3,5]
 colors = ['r','b','k']
 styles = ['-','--','-d']
@@ -64,8 +74,10 @@ for index,b in enumerate(bits):
     eval(f"proposed{b}.loc[0,:].plot(style='{colors[index]}{styles[2]}', label='proposed {b} bits')")
 '''
 
-plt.xlabel("SNRdB")
-plt.ylabel("NMSE AVG")
+plt.xlabel("SNR (dB)")
+plt.ylabel("NMSE")
+plt.xlim(-21.5, 21.5)
 #plt.title("MIMO low resolution - Deep Learning Models for Rosslyn")
-plt.legend()
+plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0.)
+plt.grid(True)
 plt.show()

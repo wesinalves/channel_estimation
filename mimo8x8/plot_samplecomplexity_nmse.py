@@ -54,18 +54,30 @@ print(sum_prop)
 lower = 100 - (sum_mat * 100) / sum_prop
 print(lower)
 
+plt.figure(figsize=(7,2.5))
+
 x = np.linspace(10*5,100*5,20,dtype="int")
-plt.plot(x, matched1, "r-", label="1 bit matched")
-plt.plot(x, proposed1, "r--d", label="1 bit proposed")
-plt.plot(x, matched3, "b-", label="3 bits matched")
-plt.plot(x, proposed3, "b--d", label="3 bits proposed")
-plt.plot(x, matched5, "k-", label="5 bits matched")
-plt.plot(x, proposed5, "k--d", label="5 bits proposed")
+plt.plot(x, matched1, "r--s", label="1 bit matched")
+plt.plot(x, proposed1, "k-s", label="1 bit DTL")
+plt.plot(x, matched3, "r--P", label="3 bits matched")
+plt.plot(x, proposed3, "k-P", label="3 bits DTL")
+plt.plot(x, matched5, "r--o", label="5 bits matched")
+plt.plot(x, proposed5, "k-o", label="5 bits DTL")
+
+plt.subplots_adjust(top=0.97,
+                    bottom=0.185,
+                    left=0.11,
+                    right=0.990,
+                    hspace=0.2,
+                    wspace=0.2)
 
 
 plt.xlabel("Number of training examples")
-plt.ylabel("NMSE AVG")
+plt.ylabel("NMSE")
 #plt.title("MIMO low resolution - Sample Complexity")
 #plt.legend(["Matched 1bit", "Proposed 1bit", "Matched 3bit", "Proposed 3bit", "Matched 5bit", "Proposed 5bit"])
-plt.legend()
+plt.xlim(45,505)
+#plt.ylim((0.090, 0.990))
+plt.grid(True)
+plt.legend(ncol=2)
 plt.show()

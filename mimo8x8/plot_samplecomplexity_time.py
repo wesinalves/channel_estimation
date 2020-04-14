@@ -20,15 +20,24 @@ print(sum_prop)
 
 lower = 100 - (sum_prop * 100) / sum_mat
 print(lower)
+plt.figure(figsize=(7,2.5))
+plt.plot(x, matched_time1, "r--s", label="1 bit matched")
+plt.plot(x, matched_time3, "r--P", label="3 bits matched")
+plt.plot(x, matched_time5, "r--o", label="5 bits matched")
+plt.plot(x, proposed_time1, "k-s", label="1 bit DTL")
+plt.plot(x, proposed_time3, "k-P", label="3 bits DTL")
+plt.plot(x, proposed_time5, "k-o", label="5 bits DTL")
 
-plt.plot(x, matched_time1, "r--", label="1 bit matched")
-plt.plot(x, matched_time3, "b--", label="3 bits matched")
-plt.plot(x, matched_time5, "k--", label="5 bits matched")
-plt.plot(x, proposed_time1, "r-d", label="1 bit proposed")
-plt.plot(x, proposed_time3, "b-d", label="3 bits proposed")
-plt.plot(x, proposed_time5, "k-d", label="5 bits proposed")
+plt.subplots_adjust(top=0.97,
+                    bottom=0.185,
+                    left=0.11,
+                    right=0.990,
+                    hspace=0.2,
+                    wspace=0.2)
 
 plt.xlabel("Number of training examples")
 plt.ylabel("Seconds")
-plt.legend()
+plt.xlim(45,505)
+plt.grid(True)
+plt.legend(ncol=2)
 plt.show()
