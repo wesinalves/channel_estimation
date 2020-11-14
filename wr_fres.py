@@ -6,10 +6,10 @@ This version:
     OBS: Tensorflow is not working probably because it's being repeatedly initialized in the loop
 """
 import numpy as np
-import keras
+import tensorflow.keras as keras
 import tensorflow as tf
-from keras.models import Sequential, Model
-from keras.layers import (
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import (
     Embedding,
     Input,
     Reshape,
@@ -24,14 +24,14 @@ from keras.layers import (
 )
 from mimo_channels_data_generator2 import RandomChannelMimoDataGenerator
 
-from keras.callbacks import TensorBoard
+from tensorflow.keras.callbacks import TensorBoard
 
 from matplotlib import pyplot as plt
 import argparse
-from keras.models import model_from_json
-from keras.constraints import max_norm
+from tensorflow.keras.models import model_from_json
+from tensorflow.keras.constraints import max_norm
 import numpy.linalg as la
-from keras import backend as K
+from tensorflow.keras import backend as K
 import os
 import shutil
 import sys
@@ -50,7 +50,7 @@ now = datetime.utcnow().strftime("%Y%m%d%H%M%S")
 root_logdir = "tf_channel_unstructured3"
 logdir = "{}/run-{}/".format(root_logdir, now)
 
-logdir = "./mimo8x8/5-bit"
+logdir = "./mimo8x32/5-bit"
 # save this script
 os.makedirs(logdir, exist_ok=True)
 ini = sys.argv[0]
@@ -79,7 +79,7 @@ epochs = 100
 # Parameters
 global Nt
 global Nr
-Nt = 8  # num of Rx antennas, will be larger than Nt for uplink massive MIMO
+Nt = 32  # num of Rx antennas, will be larger than Nt for uplink massive MIMO
 Nr = 8  # num of Tx antennas
 # the sample is a measurement of Y values, and their collection composes an example. The channel estimation
 min_randomized_snr_db = -1
@@ -99,7 +99,7 @@ num_test_examples = 100  # for evaluating in the end, after training
 # get small number to avoid slowing down the simulation, test in the end
 num_validation_examples = 200
 num_training_examples = 900
-file = "channel_china60Ghz.mat"
+file = "channels_rosslyn_60Ghz_Nr8Nt32_mobile_s004.mat"
 if False:
     num_clusters = 1
     method = "sparse"
@@ -253,7 +253,7 @@ def create_conv2():
     global Nr
     global Nt
     H_normalization_factor = np.sqrt(Nr * Nt)
-    lstm = keras.layers.CuDNNLSTM
+    # lstm = tf.keras.layers.CuDNNLSTM
 
     model = Sequential()
     
