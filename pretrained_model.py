@@ -20,10 +20,10 @@ h_ is the output of the model and represents the channel
 
 '''
 import numpy as np
-import keras
+from tensorflow import keras
 import tensorflow as tf
-from keras.models import Sequential, Model
-from keras.layers import (
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import (
     Embedding,
     Input,
     Reshape,
@@ -65,9 +65,9 @@ parser.add_argument("--weights", type=str, default="akmodel")
 args = parser.parse_args()
 
 frequency = "60GHz"
-quantization = "1-bit"
+quantization = "5-bit"
 
-logdir = f"./mimo8x8/{quantization}"
+logdir = f"./mimo8x32/{quantization}"
 # save this script
 os.makedirs(logdir, exist_ok=True)
 ini = sys.argv[0]
@@ -98,7 +98,7 @@ epochs = 100
 # Parameters
 global Nt
 global Nr
-Nt = 8  # num of Rx antennas, will be larger than Nt for uplink massive MIMO
+Nt = 32  # num of Rx antennas, will be larger than Nt for uplink massive MIMO
 Nr = 8  # num of Tx antennas
 # the sample is a measurement of Y values, and their collection composes an example. The channel estimation
 min_randomized_snr_db = -1
@@ -112,22 +112,22 @@ numSamplesPerFixedChannel = (
     numExamplesWithFixedChannel * numSamplesPerExample
 )  # coherence time
 # obs: it may make sense to have the batch size equals the coherence time
-batch_size = 5  # numExamplesWithFixedChannel
+batch_size = 1  # numExamplesWithFixedChannel
 
-num_test_examples = [100]
+num_test_examples = [2000]
 #num_test_examples = [50, 60, 70, 80, 100, 120, 140, 160, 180, 200]  # for evaluating in the end, after training
 # num_test_examples = np.linspace(20, 200, 20, dtype='int')  # for evaluating in the end, after training
 #num_test_examples = 200  # for evaluating in the end, after training
 
 # get small number to avoid slowing down the simulation, test in the end
-num_validation_examples = [200]
+num_validation_examples = [2000]
 #num_validation_examples = [100, 110, 120, 130, 200, 220, 240, 260, 280, 300]
 #num_validation_examples = np.linspace(3, 30, 20, dtype='int')
 
-num_training_examples = [900]
+num_training_examples = [10000]
 #num_training_examples = [200, 250, 300, 350, 400, 500, 600, 700, 800, 900]
 #num_training_examples = np.linspace(10, 100, 20, dtype='int')
-file = "channel_rosslyn60Ghz.mat"
+file = "channels_beijing_60Ghz_Nr8Nt32_mobile_s007.mat"
 method = "manual"
 training_generator = RandomChannelMimoDataGenerator(
     batch_size=batch_size,
@@ -142,7 +142,7 @@ training_generator = RandomChannelMimoDataGenerator(
     file = file
 )
 
-model_filepath = f"models/{quantization}/model-china-conv.h5"
+model_filepath = f"models/{quantization}/model-rosslyn.h5"
 model = keras.models.load_model(model_filepath)
 
 
@@ -303,7 +303,7 @@ def test_model(bottleneck_model, top_model, num_test_example):
     # output_filename = 'all_nmse_snrdb_' + str(SNRdB) + '_Nr' + str(Nr) + '_Nt' + str(Nt) + '_numEx' + str(
     #    numSamplesPerExample) + '.txt'
     output_filename = (
-        f"all_nmse_pretrained_Nr{Nr}_Nt{Nt}_numEx{numSamplesPerExample}_beijing_rosslyn.txt"
+        f"all_nmse_pretrained_Nr{Nr}_Nt{Nt}_numEx{numSamplesPerExample}_rosslyn_bejing.txt"
     )
     output_filename = os.path.join(logdir, output_filename)
     np.savetxt(output_filename, (all_nmse_db_average, all_nmse_db_min, all_nmse_db_max))

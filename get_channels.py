@@ -12,7 +12,7 @@ import numpy as np
 ### Script configuration
 ##################################
 
-if True: #### Load pre-processed RT data
+if False: #### Load pre-processed RT data
     inputFile = 'rosslyn_5s.mat'
     outputFile = 'channel_rosslyn60Ghz.mat'
     inputType = 'mat' # mat or h5
@@ -20,13 +20,18 @@ else: ### Provide RT data to pre-process
     
     # LASSE's mimo-python package
     # https://gitlab.lasse.ufpa.br/software/mimo-python.git
-    mimoPythonPath = '/home/ilan/git/lasse/mimo-python/mimopython/channel_characterization'
-    
+    # mimoPythonPath = '/home/ilan/git/lasse/mimo-python/mimopython/channel_characterization'
+    mimoPythonPath = 'E:\\Wesin\\Doutorado\\channel_estimation\\mimo-python\\mimopython\\channel_characterization'
+        
     # Provide path the Raymobtime h5 data that can be downloaded at
     # https://www.lasse.ufpa.br/raymobtime/
+    #inputFile = \
+    #    '/home/ilan/Documents/Raymobtime/dataset/s004/rosslyn_mobile_60GHz_ts1s_V_e*.hdf5'
     inputFile = \
-        '/home/ilan/Documents/Raymobtime/dataset/s004/rosslyn_mobile_60GHz_ts1s_V_e*.hdf5'
-    outputFile = 'channels_rosslyn_60Ghz_Nr8Nt32_mobile_s004.mat'
+        'E:\\Wesin\\Doutorado\\channel_estimation\\datasets\\raymobtime\\ray_tracing_data_s004_carrier60GHz\\rosslyn_mobile_60GHz_ts1s_V_e*.hdf5'
+    # inputFile = \
+    #     'E:\\Wesin\\Doutorado\\channel_estimation\\datasets\\raymobtime\\ray_tracing_data_s007_carrier60GHz\\beijing_mobile_60GHz_ts1s_VP_e*.hdf5'
+    outputFile = 'channels_beijing_60Ghz_Nr8Nt32_mobile_s007.mat'
     inputType = 'h5' # mat or h5
     Nr = 8
     Nt = 32

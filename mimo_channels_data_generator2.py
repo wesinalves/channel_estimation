@@ -147,9 +147,9 @@ class MimoChannel:
 
         shouldUseHysteresisQuantizer = True
         if shouldUseHysteresisQuantizer:
-            #std = np.random.rand() * hysteresis_range
-            #Y = hysteresis_quantize(Y, std=std)
-            Y = ak_quantizer(np.real(Y), 5, -1, 1, 1)[0] + 1j * ak_quantizer(np.imag(Y), 5, -1, 1, 1)[0]
+            std = np.random.rand() * hysteresis_range
+            Y = hysteresis_quantize(Y, std=std)
+            Y = ak_quantizer(np.real(Y), 1, -1, 1, 1)[0] + 1j * ak_quantizer(np.imag(Y), 1, -1, 1, 1)[0]
         else:
             Y = np.sign(np.real(Y)) + 1j * np.sign(np.imag(Y))
 

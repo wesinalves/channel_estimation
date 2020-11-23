@@ -61,8 +61,6 @@ plt.subplots_adjust(top=0.97,
                     wspace=0.2)
 
 '''
-
-
 bits = [1,3,5]
 colors = ['r','b','k']
 styles = ['-','--','-d']
@@ -75,7 +73,7 @@ for index,b in enumerate(bits):
 '''
 
 plt.xlabel("SNR (dB)")
-plt.ylabel("NMSE")
+plt.ylabel("NMSE (dB)")
 plt.xlim(-21.5, 21.5)
 #plt.title("MIMO low resolution - Deep Learning Models for Rosslyn")
 plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0.)

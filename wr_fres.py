@@ -50,7 +50,9 @@ now = datetime.utcnow().strftime("%Y%m%d%H%M%S")
 root_logdir = "tf_channel_unstructured3"
 logdir = "{}/run-{}/".format(root_logdir, now)
 
-logdir = "./mimo8x32/5-bit"
+bits = "1-bit"
+
+logdir = f"./mimo8x32/{bits}"
 # save this script
 os.makedirs(logdir, exist_ok=True)
 ini = sys.argv[0]
@@ -93,12 +95,12 @@ numSamplesPerFixedChannel = (
     numExamplesWithFixedChannel * numSamplesPerExample
 )  # coherence time
 # obs: it may make sense to have the batch size equals the coherence time
-batch_size = 5  # numExamplesWithFixedChannel
+batch_size = 1  # numExamplesWithFixedChannel
 
-num_test_examples = 100  # for evaluating in the end, after training
+num_test_examples = 2000  # for evaluating in the end, after training
 # get small number to avoid slowing down the simulation, test in the end
-num_validation_examples = 200
-num_training_examples = 900
+num_validation_examples = 2000
+num_training_examples = 10000
 file = "channels_rosslyn_60Ghz_Nr8Nt32_mobile_s004.mat"
 if False:
     num_clusters = 1
@@ -159,18 +161,18 @@ def create_conv2D():
     model.add(Reshape((2 * Nr, numSamplesPerExample, 1), input_shape=input_shape))
     model.add(
         Conv2D(
-            80,
-            kernel_size=(2, numSamplesPerExample),
+            16,
+            kernel_size=(3, 3),
             activation="tanh",
             # 				 strides=[1,1],
             # 				 padding="SAME",
         )
     )
-    model.add(Conv2D(30, (numSamplesPerExample, 2), padding="SAME", activation="tanh"))
+    model.add(Conv2D(16, (3, 3), padding="SAME", activation="tanh"))
     # model.add(MaxPooling2D(pool_size=(2, 2)))
     # model.add(Conv2D(20, (2, 2), padding="SAME", activation='tanh'))
     # model.add(Dropout(0.3))
-    model.add(Dense(30, activation="tanh"))
+    #model.add(Dense(30, activation="tanh"))
     # model.add(Dropout(0.3))
     model.add(Flatten())
     model.add(Dense(numOutputs, activation="linear"))
@@ -534,6 +536,7 @@ def baseline_model():
     # return create_dense()
     # return create_conv()
     return create_conv2()
+    # return create_conv2D()
     # return create_res()
     # return create_res2()
     # return create_res3()
@@ -542,8 +545,8 @@ def baseline_model():
     # return create_deep_dense()
     #return create_lstm_conv()
 
-weights_filename = "model_{}_weights_channel_estimation_beijing".format(1)
-model_filepath = "models/5-bit/model-beijing-conv.h5"
+#weights_filename = "model_{}_weights_channel_estimation_rosslyn".format(1)
+model_filepath = f"models/{bits}/model-beijing.h5"
 model = baseline_model()
 # Compile model
 # model.compile(loss='mse', optimizer='adam', metrics=['mse', 'mae', 'mape'    'cosine'])
@@ -572,7 +575,7 @@ if args.mode == "train" or args.mode == "trte":
         tensorboard = TensorBoard(
             log_dir=logdir,
             histogram_freq=1,
-            # batch_size=32,
+            batch_size=64,
             write_graph=True,
             write_grads=True,
             write_images=True,
@@ -743,7 +746,7 @@ if args.mode == "test" or args.mode == "trte":
     # output_filename = 'all_nmse_snrdb_' + str(SNRdB) + '_Nr' + str(Nr) + '_Nt' + str(Nt) + '_numEx' + str(
     #    numSamplesPerExample) + '.txt'
     output_filename = (
-        f"all_nmse_matched_Nr{Nr}_Nt{Nt}_numEx{numSamplesPerExample}_beijing.txt"
+        f"all_nmse_mismatched_Nr{Nr}_Nt{Nt}_numEx{numSamplesPerExample}_rosslyn.txt"
     )
     output_filename = os.path.join(logdir, output_filename)
     np.savetxt(output_filename, (all_nmse_db_average, all_nmse_db_min, all_nmse_db_max))

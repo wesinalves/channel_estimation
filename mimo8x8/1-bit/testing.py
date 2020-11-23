@@ -20,10 +20,10 @@ h_ is the output of the model and represents the channel
 
 '''
 import numpy as np
-import keras
+import tensorflow.keras as keras
 import tensorflow as tf
-from keras.models import Sequential, Model
-from keras.layers import (
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import (
     Embedding,
     Input,
     Reshape,
@@ -55,11 +55,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 frequency = "60GHz"
-quantization = "1-bit"
+bits = "1-bit"
 
 
 #logdir = "./mimo8x8/{}".format(quantization)
-logdir = "./mimo8x8/1-bit"
+logdir = f"./mimo8x8/{bits}"
 # save this script
 os.makedirs(logdir, exist_ok=True)
 ini = sys.argv[0]
@@ -102,12 +102,13 @@ numSamplesPerFixedChannel = (
     numExamplesWithFixedChannel * numSamplesPerExample
 )  # coherence time
 # obs: it may make sense to have the batch size equals the coherence time
-batch_size = 5  # numExamplesWithFixedChannel
+batch_size = 1  # numExamplesWithFixedChannel
 
-num_test_examples = 100  # for evaluating in the end, after training
+num_test_examples = 400  # for evaluating in the end, after training
 # get small number to avoid slowing down the simulation, test in the end
-num_validation_examples = 200
-num_training_examples = 960
+num_validation_examples = 800
+num_training_examples = 2960
+#file = "channels_rosslyn_60Ghz_Nr8Nt32_mobile_s004.mat"
 file = "channel_china60Ghz.mat"
 method = "manual"
 training_generator = RandomChannelMimoDataGenerator(
@@ -130,7 +131,7 @@ training_generator.randomize_SNR = False
 
 
 # model_filepath = "models/{}/model_dense_256samples_{}.h5".format(quantization,frequency)
-model_filepath = "models/1-bit/model-rosslyn-conv.h5"
+model_filepath = f"models/{bits}/model-rosslyn-conv.h5"
 model = keras.models.load_model(model_filepath)
 SNRdB_values = np.arange(-21, 22, 3)
 #training_generator.method = "manual"
@@ -206,7 +207,7 @@ for SNRdB in SNRdB_values:
     #del mat 
 
 output_filename = (
-    f"all_nmse_mismatched_Nr{Nr}_Nt{Nt}_numEx256_china.txt"
+    f"all_nmse_mismatched_Nr{Nr}_Nt{Nt}_numEx256_beijing.txt"
 )
 output_filename = os.path.join(logdir, output_filename)
 np.savetxt(output_filename, (all_nmse_db_average, all_nmse_db_min, all_nmse_db_max))

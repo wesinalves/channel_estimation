@@ -3,7 +3,10 @@
 akpy/
 ak-py/
 mimo4x64/
+mimo8x8/
+mimo8x32/
 models/
 
 channel_data*
+channel*
 Harray*

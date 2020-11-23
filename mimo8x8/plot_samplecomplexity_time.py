@@ -36,7 +36,7 @@ plt.subplots_adjust(top=0.97,
                     wspace=0.2)
 
 plt.xlabel("Number of training examples")
-plt.ylabel("Seconds")
+plt.ylabel("Training Time (seconds)")
 plt.xlim(45,505)
 plt.grid(True)
 plt.legend(ncol=2)

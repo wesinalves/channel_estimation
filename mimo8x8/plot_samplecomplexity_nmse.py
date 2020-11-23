@@ -73,7 +73,7 @@ plt.subplots_adjust(top=0.97,
 
 
 plt.xlabel("Number of training examples")
-plt.ylabel("NMSE")
+plt.ylabel("NMSE (dB)")
 #plt.title("MIMO low resolution - Sample Complexity")
 #plt.legend(["Matched 1bit", "Proposed 1bit", "Matched 3bit", "Proposed 3bit", "Matched 5bit", "Proposed 5bit"])
 plt.xlim(45,505)
