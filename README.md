@@ -16,7 +16,7 @@ the simulations. Under the defined testing setup, the proposed
 DTL approach can reduce the computational cost of the training
 stage without decreasing the estimation accuracy.
 
-<img src="img/sample.png" width="200" height="200">
+![training_sample]("img/sample.png")
 
 # Usage
 
