@@ -20,13 +20,14 @@ stage without decreasing the estimation accuracy.
 
 # Usage
 
-# Main files
+# Directory description
 
 Filename   | Description
 --------- | ------
-wr_fres.py | main file to run the experiment
+wr_fres.py | main file to train models
+pretrained_model.py | apply deep transfer learning in trained models
 mimo_channels.py | base file to generate mimo channels
 mimo_channels_data_generator.py | this file generates data for the model training
-utils.py | contains utils functions to run the experiment
+utils.py | contains models architecture
 
 # Datasets
