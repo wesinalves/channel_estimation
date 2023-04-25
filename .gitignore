@@ -1,11 +1,15 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-akpy/
 ak-py/
 mimo4x64/
 mimo8x8/
+mimo8x16/
+mimo8x64/
+mimo16x8/
+mimo64x16/
 mimo8x32/
 models/
+*.pyc
 
 channel_data*
 channel*
