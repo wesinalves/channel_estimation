@@ -129,8 +129,8 @@ else:
 # numOutputs = np.prod(output_dim)
 # print(numInputs, " ", numOutputs)
 
-weights_filename = "model_{}_weights_channel_estimation_beijing".format(1)
-model_filepath = "models/5-bit/model-beijing-conv.h5"
+weights_filename = "model_{}_weights_channel_estimation_rosslyn".format(1)
+model_filepath = "models/1-bit/model-rosslynNt32-new.h5"
 model = baseline_model(Nr,Nt, input_shape, output_dim)
 model.compile(loss="mse", optimizer="adam")
 
