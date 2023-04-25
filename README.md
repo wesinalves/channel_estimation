@@ -20,14 +20,34 @@ stage without decreasing the estimation accuracy.
 
 # Usage
 
+First, run ```python wr_fres.py``` to train models.
+
+Then, run ```python pretrained_model.py``` to apply deep transfer learning
+
 # Directory description
+
+*akpy* - software to process mimo channels
+
+*mimoNrxNt* - experiments outputs
+
+*models* - save models trained
 
 Filename   | Description
 --------- | ------
 wr_fres.py | main file to train models
 pretrained_model.py | apply deep transfer learning in trained models
+get_channels.py | extract channels data from Raymobtime dataset
 mimo_channels.py | base file to generate mimo channels
-mimo_channels_data_generator.py | this file generates data for the model training
-utils.py | contains models architecture
+mimo_channels_data_generator2.py | this file generates input data for the model training
+mimo8x32/plot_* | plot graphs shown in paper
+
 
 # Datasets
+
+*channel_rosslyn60Ghz* - 8x8 channels in Rosslyn.
+
+*channels_rosslyn_60Ghz_Nr8Nt32_mobile_s004* - 8x32 mobile channels in Rosslyn.
+
+*channels_beijing_60Ghz_Nr8Nt32_mobile_s007* - 8x32 mobile channels in Beijing.
+
+See more details in [Raymobtime dataset](https://www.lasse.ufpa.br/raymobtime/).
