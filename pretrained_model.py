@@ -37,14 +37,14 @@ from tensorflow.keras.layers import (
 )
 from mimo_channels_data_generator2 import RandomChannelMimoDataGenerator
 
-from keras.callbacks import TensorBoard
+from tensorflow.keras.callbacks import TensorBoard
 
 from matplotlib import pyplot as plt
 import argparse
-from keras.models import model_from_json
-from keras.constraints import max_norm
+from tensorflow.keras.models import model_from_json
+from tensorflow.keras.constraints import max_norm
 import numpy.linalg as la
-from keras import backend as K
+from tensorflow.keras import backend as K
 import os
 import shutil
 import sys
@@ -65,7 +65,7 @@ parser.add_argument("--weights", type=str, default="akmodel")
 args = parser.parse_args()
 
 frequency = "60GHz"
-quantization = "5-bit"
+quantization = "1-bit"
 
 logdir = f"./mimo8x32/{quantization}"
 # save this script
@@ -142,7 +142,7 @@ training_generator = RandomChannelMimoDataGenerator(
     file = file
 )
 
-model_filepath = f"models/{quantization}/model-rosslyn.h5"
+model_filepath = f"models/{quantization}/model-rosslyNt32.h5"
 model = keras.models.load_model(model_filepath)
 
 
@@ -206,6 +206,8 @@ def train_top_model(output_train, output_val, instance):
     top_model.add(Reshape(output_dim))
 
     top_model.compile(loss="mse", optimizer="adam")
+    top_model.build(input_shape=input_train.shape)
+    top_model.summary()
 
     start_time = time.time()
     start_memory = p.memory_info().rss
@@ -236,7 +238,7 @@ def train_top_model(output_train, output_val, instance):
     cpu_time[str(instance)] = (time.time() - start_time)
     memory_consumption[str(instance)] = (p.memory_info().rss - start_memory)
     
-    top_model.save_weights(f'models/{quantization}/weights/bottleneck_fc_model_weights{instance}.h5')
+    #top_model.save_weights(f'models/{quantization}/weights/bottleneck_fc_model_weights{instance}.h5')    
 
     return top_model
   
@@ -306,7 +308,7 @@ def test_model(bottleneck_model, top_model, num_test_example):
         f"all_nmse_pretrained_Nr{Nr}_Nt{Nt}_numEx{numSamplesPerExample}_rosslyn_bejing.txt"
     )
     output_filename = os.path.join(logdir, output_filename)
-    np.savetxt(output_filename, (all_nmse_db_average, all_nmse_db_min, all_nmse_db_max))
+    #np.savetxt(output_filename, (all_nmse_db_average, all_nmse_db_min, all_nmse_db_max))
 
     print("Wrote file", output_filename)
     print("*******************\n{}".format(np.mean(all_nmse_db_average)))
@@ -323,7 +325,7 @@ for i in range(len(num_training_examples)):
 
     bot_model = save_bottleneck_features(x_train, x_val, model, num_training_examples[i])
     t_model = train_top_model(y_train, y_val, num_training_examples[i])
-    test_model(bot_model, t_model, num_test_examples[i])
+    #test_model(bot_model, t_model, num_test_examples[i])
 
 '''
 with open(os.path.join(logdir, "complexity100-800.txt"), 'w') as f:

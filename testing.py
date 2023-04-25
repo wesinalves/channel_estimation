@@ -37,14 +37,14 @@ from tensorflow.keras.layers import (
 )
 from mimo_channels_data_generator2 import RandomChannelMimoDataGenerator
 
-from keras.callbacks import TensorBoard
+from tensorflow.keras.callbacks import TensorBoard
 
 from matplotlib import pyplot as plt
 import argparse
-from keras.models import model_from_json
-from keras.constraints import max_norm
+from tensorflow.keras.models import model_from_json
+from tensorflow.keras.constraints import max_norm
 import numpy.linalg as la
-from keras import backend as K
+from tensorflow.keras import backend as K
 import os
 import shutil
 import sys

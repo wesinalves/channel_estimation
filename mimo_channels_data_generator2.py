@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.io import loadmat  # read .mat files
-import keras
+import tensorflow.keras as keras
 import numpy.linalg as la
 from akpy.mimo_channels import (
     ak_generate_sparse_channels,
